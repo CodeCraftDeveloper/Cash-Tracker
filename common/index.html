@@ -14,10 +14,24 @@
       href="https://fonts.googleapis.com/css?family=Poppins:300i,400,400i,500,600,700,800%7CLora:400,400i,700,700i"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <link href="assets/css/external.css" rel="stylesheet" />
     <link href="assets/css/cons.css" rel="stylesheet" />
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
+    <style>
+      .feature-panel {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .feature-link:hover .feature-panel {
+        transform: translateY(-10px) scale(1.05); /* Floating effect */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+      }
+    </style>
     <title>Cash Tracker | Prem Industries India Limited</title>
   </head>
 
@@ -93,14 +107,18 @@
             </div>
           </div>
           <div class="row">
-            <a href="/">
+            <a
+              href="https://pi-cash-tracker-client.netlify.app/"
+              class="feature-link"
+              target="_blank"
+            >
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="feature-panel">
                   <div class="feature--icon">
-                    <i class="flaticon-excavator"></i>
+                    <i class="fa-solid fa-user-lock"></i>
                   </div>
                   <div class="feature--content">
-                    <h3>User Login</h3>
+                    <h3 style="font-size: 25px">User Login</h3>
                     <p>
                       Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                       Consequuntur, quos?
@@ -109,14 +127,18 @@
                 </div>
               </div>
             </a>
-            <a href="/">
+            <a
+              href="https://pi-cash-tracker-admin.netlify.app/"
+              class="feature-link"
+              target="_blank"
+            >
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="feature-panel">
                   <div class="feature--icon">
-                    <i class="flaticon-crane"></i>
+                    <i class="fa-solid fa-user-lock"></i>
                   </div>
                   <div class="feature--content">
-                    <h3>Admin Login</h3>
+                    <h3 style="font-size: 25px">Admin Login</h3>
                     <p>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Possimus, ab?
