@@ -1105,18 +1105,18 @@ section {
 /* Background Image */
 .bg-section {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   z-index: 1;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -ms-background-size: cover;
-  -o-background-size: cover;
+  /* -webkit-background-size: cover; */
+  /* -moz-background-size: cover; */
+  /* -ms-background-size: cover; */
+  /* -o-background-size: cover; */
   background-size: cover;
-  /*background-attachment: fixed;*/
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
-  height: 100%;
+  height: 50%;
 }
 
 .bg-overlay:before {
@@ -2238,7 +2238,7 @@ textarea.form-control {
 /* Small Devices, Tablets */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .hero.fullscreen {
-    height: 100vh !important;
+    height: 50vh;
   }
 
   .hero .hero--headline {
@@ -2281,7 +2281,7 @@ textarea.form-control {
   }
 
   .hero-1 .hero--img img {
-    max-width: 100%;
+    max-width: 50%;
   }
 }
 
