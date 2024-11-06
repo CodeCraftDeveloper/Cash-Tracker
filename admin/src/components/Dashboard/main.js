@@ -37,7 +37,16 @@ export default function Main() {
                 </h1>
               </div>
             </div>
-            <div className="row mt-5"></div>
+            <div className="row mt-5">
+              <div className="col-md-10"></div>
+              <div className="col-md-2">
+                <Link to="/new-account">
+                  <button className="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-plus"></i> Add Person
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         </>
       )}

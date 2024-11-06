@@ -7,9 +7,10 @@ import {
 } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
+import NewAccount from "./components/NewAccount/main";
 import Footer from "./components/Footer/main";
-import AddData from "./components/AddDetail/main";
-import EditData from "./components/EditDetail/main";
+// import AddData from "./components/AddDetail/main";
+// import EditData from "./components/EditDetail/main";
 import ProtectedRoute from "./ProtectedRoute";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -42,18 +43,10 @@ function App() {
           }
         />
         <Route
-          path="/new-entry"
+          path="/new-account"
           element={
             <ProtectedRoute>
-              <AddData />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/edit-entry"
-          element={
-            <ProtectedRoute>
-              <EditData />
+              <NewAccount />
             </ProtectedRoute>
           }
         />
