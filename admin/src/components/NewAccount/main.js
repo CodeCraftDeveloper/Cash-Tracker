@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { App, Credentials } from "realm-web"; // Import the Realm App and Credentials
 import Navbar from "../Navbar/main";
 import Spinner from "../Spinner/main";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const app = new App({ id: "application-0-emnopts" }); // Initialize Realm App
@@ -75,8 +76,8 @@ export default function Main() {
         personposition: "",
         totalmoney: 0,
         accbalance: 0,
-        balused: 0,
-        balremaining: 0,
+        // balused: 0,
+        // balremaining: 0,
       });
     }
   };
@@ -92,25 +93,46 @@ export default function Main() {
 
   return (
     <>
+      <Helmet>
+        <title>New Account - Cash Tracker</title>
+        <meta name="description" content="Prem Industries Cash Tracker" />
+      </Helmet>
       <Navbar />
       <div className="container mt-5">
         <div className="row mb-3">
           <div className="col-md-12 text-end">
-            <Link to="/dashboard">
+            <Link
+              to="/dashboard"
+              data-aos="fade-up"
+              data-aos-delay="400"
+              data-aos-once="true"
+            >
               <button className="btn btn-primary btn-lg">
-                Back to Accounts
+                <i class="fa-solid fa-users"></i> Back to Accounts
               </button>
             </Link>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
-            <h2 className="text-center">Create New Account</h2>
+            <h2
+              className="text-center"
+              data-aos="fade-up"
+              data-aos-delay="500"
+              data-aos-once="true"
+            >
+              Create New Account
+            </h2>
           </div>
         </div>
         <div className="row">
           <form onSubmit={handleSubmit} className="col-md-12">
-            <div className="form-group mt-2">
+            <div
+              className="form-group mt-2"
+              data-aos="fade-up"
+              data-aos-delay="600"
+              data-aos-once="true"
+            >
               <label>
                 <b>Person's Name</b>
                 <span className="text-danger">*</span>
@@ -124,7 +146,12 @@ export default function Main() {
                 required
               />
             </div>
-            <div className="form-group mt-2">
+            <div
+              className="form-group mt-2"
+              data-aos="fade-up"
+              data-aos-delay="700"
+              data-aos-once="true"
+            >
               <label>
                 <b>Person's Position</b>
                 <span className="text-danger">*</span>
@@ -138,7 +165,12 @@ export default function Main() {
                 required
               />
             </div>
-            <div className="form-group mt-2">
+            <div
+              className="form-group mt-2"
+              data-aos="fade-up"
+              data-aos-delay="800"
+              data-aos-once="true"
+            >
               <label>
                 <b>Username</b>
                 <span className="text-danger">*</span>
@@ -152,7 +184,12 @@ export default function Main() {
                 required
               />
             </div>
-            <div className="form-group mt-2">
+            <div
+              className="form-group mt-2"
+              data-aos="fade-up"
+              data-aos-delay="900"
+              data-aos-once="true"
+            >
               <label>
                 <b>Password</b>
                 <span className="text-danger">*</span>
@@ -166,9 +203,14 @@ export default function Main() {
                 required
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              style={{ display: "flex", justifyContent: "center" }}
+              data-aos="fade-up"
+              data-aos-delay="1000"
+              data-aos-once="true"
+            >
               <button type="submit" className="btn btn-primary btn-lg mt-3">
-                Create Account
+                <i class="fa-solid fa-check"></i> Create Account
               </button>
             </div>
           </form>

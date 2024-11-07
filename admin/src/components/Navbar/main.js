@@ -30,7 +30,7 @@ export default function Main() {
           </Link>
           {token && (
             <button onClick={handleLogout} className="btn btn-danger">
-              Logout
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
             </button>
           )}
         </div>
