@@ -61,9 +61,12 @@ export default function Main() {
       return; // Exit the function
     }
 
-    // Save the formData to MongoDB
+    // Save the formData to MongoDB with createdAt timestamp
     try {
-      const result = await collection.insertOne(formData);
+      const result = await collection.insertOne({
+        ...formData,
+        createdAt: new Date(), // Add createdAt field with the current date and time
+      });
       window.alert("New Account Created!");
     } catch (error) {
       console.error("Error saving data:", error);
@@ -76,8 +79,7 @@ export default function Main() {
         personposition: "",
         totalmoney: 0,
         accbalance: 0,
-        // balused: 0,
-        // balremaining: 0,
+        transactions: [],
       });
     }
   };

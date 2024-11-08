@@ -17,6 +17,7 @@ export default function Main() {
   const [showTransactionPopup, setShowtransactionPopup] = useState(false);
   const [ShowmoneyPopup, setShowmoneyPopup] = useState(false);
   const [moneyDetails, setmoneyDetails] = useState(null);
+  const [amountToAdd, setAmountToAdd] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,7 +152,8 @@ export default function Main() {
                             className="btn btn-outline-primary w-100 mt-2"
                             onClick={() => handleAccountDetailsClick(item)}
                           >
-                            <i className="fa-solid fa-gear"></i> Account Details
+                            <i className="fa-solid fa-gear"></i> Account
+                            Settings
                           </button>
                         </div>
                         <div className="col-md-2 d-flex flex-column align-items-center justify-content-center mt-2">
@@ -281,15 +283,7 @@ export default function Main() {
                   </button>
                 </div>
                 <div className="modal-body text-center">
-                  <p>
-                    Username: <strong>{moneyDetails?.username}</strong>
-                  </p>
-                  <p>
-                    Password: <strong>{moneyDetails?.password}</strong>
-                  </p>
-                  <p>
-                    Name: <strong>{moneyDetails?.name}</strong>
-                  </p>
+                  <p>Coming Soon!</p>
                   {/* Add any other details you want to show */}
                 </div>
                 <div className="modal-footer">
@@ -391,27 +385,53 @@ export default function Main() {
           >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
-                <div className="modal-header">
+                <div className="modal-header bg-primary text-white">
                   <h5 className="modal-title">Account Details</h5>
                   <button
                     type="button"
                     className="btn close"
                     onClick={handleCancel}
                   >
-                    <span>&times;</span>
+                    <span className="text-white" style={{ fontSize: "20px" }}>
+                      &times;
+                    </span>
                   </button>
                 </div>
-                <div className="modal-body text-center">
-                  <p>
-                    Username: <strong>{accountDetails?.username}</strong>
-                  </p>
-                  <p>
-                    Password: <strong>{accountDetails?.password}</strong>
-                  </p>
-                  <p>
-                    Name: <strong>{accountDetails?.name}</strong>
-                  </p>
-                  {/* Add any other details you want to show */}
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <span className="text-primary">Name: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {accountDetails?.name}
+                      </span>
+                    </div>
+                    <div className="col-md-6">
+                      <span className="text-primary">Username: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {accountDetails?.username}
+                      </span>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                      <span className="text-primary">Password: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {accountDetails?.password}
+                      </span>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                      <span className="text-primary">About Person: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {accountDetails?.personposition}
+                      </span>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                      <span className="text-primary">Created At: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {accountDetails?.createdAt
+                          ? accountDetails.createdAt.toString()
+                          : "N/A"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button
