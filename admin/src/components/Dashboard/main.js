@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { App, Credentials } from "realm-web"; // Import the Realm App and Credentials
+import { App, Credentials } from "realm-web";
 import Navbar from "../Navbar/main";
 import Spinner from "../Spinner/main";
 import { Link } from "react-router-dom";
 
-const app = new App({ id: "application-0-emnopts" }); // Initialize Realm App
+const app = new App({ id: "application-0-emnopts" });
 
 export default function Main() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [accountDetails, setAccountDetails] = useState(null);
+  const [accounttransactions, setAccountTransactions] = useState(null);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [showTransactionPopup, setShowtransactionPopup] = useState(false);
+  const [ShowmoneyPopup, setShowmoneyPopup] = useState(false);
+  const [moneyDetails, setmoneyDetails] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Log in anonymously
         const user = await app.logIn(Credentials.anonymous());
         const mongodb = user.mongoClient("mongodb-atlas");
         const collection = mongodb.db("cashtracker").collection("userdata");
 
-        // Fetch data from the collection
-        const results = await collection.find({}); // Adjust the query as needed
-
-        // Update state with fetched data
+        const results = await collection.find({});
         setData(results);
-        console.log(results);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -34,46 +37,74 @@ export default function Main() {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <Spinner />
-      </>
-    );
-  }
+  const handleDeleteClick = (user) => {
+    setUserToDelete(user);
+    setShowPopup(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      const user = await app.logIn(Credentials.anonymous());
+      const mongodb = user.mongoClient("mongodb-atlas");
+      const collection = mongodb.db("cashtracker").collection("userdata");
+
+      await collection.deleteOne({ _id: userToDelete._id });
+
+      const results = await collection.find({});
+      setData(results);
+      setShowPopup(false);
+      setUserToDelete(null);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+    setUserToDelete(null);
+    setShowDetailsPopup(false);
+    setAccountDetails(null);
+    setShowmoneyPopup(false);
+    setmoneyDetails(null);
+    setAccountTransactions(null);
+    setShowtransactionPopup(false);
+  };
+  const handleAddMoneyClick = (user) => {
+    // add money logic here
+    setmoneyDetails(user);
+    setShowmoneyPopup(true);
+  };
+
+  const handleAccountDetailsClick = (user) => {
+    setAccountDetails(user);
+    setShowDetailsPopup(true);
+  };
+
+  const handleTransactionsClick = (user) => {
+    setAccountTransactions(user);
+    setShowtransactionPopup(true);
+  };
 
   return (
     <>
       <Navbar />
       <div className="container mt-5">
-        <div className="row mb-3">
+        <div className="row">
           <div className="col-md-12 text-end">
-            <Link
-              to="/new-account"
-              data-aos="fade-up"
-              data-aos-delay="500"
-              data-aos-once="true"
-            >
+            <Link to="/new-account">
               <button className="btn btn-primary btn-lg">
-                <i className="fa-solid fa-plus"></i> Create Account
+                <i class="fa-solid fa-plus"></i> Add New Account
               </button>
             </Link>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12">
-            <h2 className="text-center">Current Accounts</h2>
-          </div>
-        </div>
+        {/* ... existing code ... */}
         <div className="row pb-5 mb-5">
           <div className="col-md-12">
-            {/* Display fetched data */}
             {data.length > 0 ? (
               data.map((item) => (
                 <div key={item._id} className="user-data-item">
                   <div className="card shadow-sm mt-3">
-                    {/* <div className="card-header">Featured</div> */}
                     <div className="card-body">
                       <div className="row">
                         <div className="col-md-4 text-center">
@@ -82,11 +113,10 @@ export default function Main() {
                             User ID:{" "}
                             <b style={{ fontSize: "18px" }}>{item.username}</b>
                           </p>
-                          <br />
                           <p>{item.personposition}</p>
                         </div>
                         <div className="col-md-4 text-center">
-                          <h4 className="card-title">Total Money Recieved</h4>
+                          <h4 className="card-title">Total Money Received</h4>
                           <p style={{ fontSize: "17px", fontWeight: "bold" }}>
                             ₹{" "}
                             <span style={{ fontSize: "22px", color: "green" }}>
@@ -104,26 +134,37 @@ export default function Main() {
                           </p>
                         </div>
                         <div className="col-md-2 d-flex flex-column align-items-center justify-content-center mt-2">
-                          <button className="btn btn-outline-success w-100">
-                            <i class="fa-solid fa-money-bill"></i> Add Money
+                          <button
+                            className="btn btn-outline-success w-100"
+                            onClick={() => handleAddMoneyClick(item)}
+                          >
+                            <i className="fa-solid fa-money-bill"></i> Add Money
                           </button>
-                          <button className="btn btn-outline-primary w-100 mt-2">
-                            <i class="fa-solid fa-comments-dollar"></i>{" "}
-                            Transaction Details
+                          <button
+                            className="btn btn-outline-primary w-100 mt-2"
+                            onClick={() => handleTransactionsClick(item)}
+                          >
+                            <i className="fa-solid fa-comments-dollar"></i>{" "}
+                            Transactions
                           </button>
-                          <button className="btn btn-outline-primary w-100 mt-2">
-                            <i class="fa-solid fa-gear"></i> Account Details
+                          <button
+                            className="btn btn-outline-primary w-100 mt-2"
+                            onClick={() => handleAccountDetailsClick(item)}
+                          >
+                            <i className="fa-solid fa-gear"></i> Account Details
                           </button>
                         </div>
                         <div className="col-md-2 d-flex flex-column align-items-center justify-content-center mt-2">
-                          <button className="btn btn-danger w-100">
-                            <i class="fa-solid fa-trash"></i> Delete Account
+                          <button
+                            className="btn btn-danger w-100"
+                            onClick={() => handleDeleteClick(item)}
+                          >
+                            <i className="fa-solid fa-trash"></i> Delete Account
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  {/* Add other fields as necessary */}
                 </div>
               ))
             ) : (
@@ -134,13 +175,258 @@ export default function Main() {
                 <br />{" "}
                 <Link to="/new-account" style={{ textDecoration: "none" }}>
                   Create One{" "}
-                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  <i className="fa-solid fa-arrow-up-right-from-square"></i>
                 </Link>
               </p>
             )}
           </div>
         </div>
       </div>
+
+      {/* Confirmation Popup */}
+      {showPopup && (
+        <>
+          <div
+            className="backdrop"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 999,
+            }}
+            onClick={handleCancel}
+          ></div>
+
+          <div
+            className="modal fade show"
+            style={{ display: "block", zIndex: 1000 }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirm Deletion</h5>
+                  <button
+                    type="button"
+                    className="btn close"
+                    onClick={handleCancel}
+                  >
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body text-center">
+                  <p>
+                    Are you sure you want to delete this account? <br />
+                    <strong>{userToDelete?.name}</strong> <br /> (User ID:{" "}
+                    <strong>{userToDelete?.username}</strong>)
+                  </p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleDeleteConfirm}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {/* Transaction Popup */}
+      {showTransactionPopup && (
+        <>
+          <div
+            className="backdrop"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 999,
+            }}
+            onClick={handleCancel}
+          ></div>
+          <div
+            className="modal fade show"
+            style={{ display: "block", zIndex: 1000 }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Transaction Details</h5>
+                  <button
+                    type="button"
+                    className="btn close"
+                    onClick={handleCancel}
+                  >
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body text-center">
+                  <p>
+                    Username: <strong>{moneyDetails?.username}</strong>
+                  </p>
+                  <p>
+                    Password: <strong>{moneyDetails?.password}</strong>
+                  </p>
+                  <p>
+                    Name: <strong>{moneyDetails?.name}</strong>
+                  </p>
+                  {/* Add any other details you want to show */}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleCancel}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {/* Money details Popup */}
+      {ShowmoneyPopup && (
+        <>
+          <div
+            className="backdrop"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 999,
+            }}
+            onClick={handleCancel}
+          ></div>
+          <div
+            className="modal fade show"
+            style={{ display: "block", zIndex: 1000 }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Add Money</h5>
+                  <button
+                    type="button"
+                    className="btn close"
+                    onClick={handleCancel}
+                  >
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body text-center">
+                  <p>
+                    Username: <strong>{moneyDetails?.username}</strong>
+                  </p>
+                  <p>
+                    Password: <strong>{moneyDetails?.password}</strong>
+                  </p>
+                  <p>
+                    Name: <strong>{moneyDetails?.name}</strong>
+                  </p>
+                  {/* Add any other details you want to show */}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleCancel}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {/* Account Details Popup */}
+      {showDetailsPopup && (
+        <>
+          <div
+            className="backdrop"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 999,
+            }}
+            onClick={handleCancel}
+          ></div>
+
+          <div
+            className="modal fade show"
+            style={{ display: "block", zIndex: 1000 }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Account Details</h5>
+                  <button
+                    type="button"
+                    className="btn close"
+                    onClick={handleCancel}
+                  >
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body text-center">
+                  <p>
+                    Username: <strong>{accountDetails?.username}</strong>
+                  </p>
+                  <p>
+                    Password: <strong>{accountDetails?.password}</strong>
+                  </p>
+                  <p>
+                    Name: <strong>{accountDetails?.name}</strong>
+                  </p>
+                  {/* Add any other details you want to show */}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleCancel}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

@@ -16,8 +16,8 @@ export default function Main() {
     personposition: "", // New field added
     totalmoney: 0,
     accbalance: 0,
-    balused: 0,
-    balremaining: 0,
+    // balused: 0,
+    // balremaining: 0,
     transactions: [],
   });
 
@@ -82,14 +82,14 @@ export default function Main() {
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <Spinner />
-      </>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <Navbar />
+  //       <Spinner />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
