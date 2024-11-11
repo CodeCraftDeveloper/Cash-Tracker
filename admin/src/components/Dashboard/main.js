@@ -94,7 +94,7 @@ export default function Main() {
           <div className="col-md-12 text-end">
             <Link to="/new-account">
               <button className="btn btn-primary btn-lg">
-                <i class="fa-solid fa-plus"></i> Add New Account
+                <i className="fa-solid fa-plus"></i> Add New Account
               </button>
             </Link>
           </div>
@@ -334,17 +334,34 @@ export default function Main() {
                     <span>&times;</span>
                   </button>
                 </div>
-                <div className="modal-body text-center">
-                  <p>
-                    Username: <strong>{moneyDetails?.username}</strong>
-                  </p>
-                  <p>
-                    Password: <strong>{moneyDetails?.password}</strong>
-                  </p>
-                  <p>
-                    Name: <strong>{moneyDetails?.name}</strong>
-                  </p>
-                  {/* Add any other details you want to show */}
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <p>
+                        Username: <strong>{moneyDetails?.username}</strong>
+                      </p>
+                    </div>
+                    <div className="col-md-6">
+                      <p>
+                        Name: <strong>{moneyDetails?.name}</strong>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <form className="form-inline text-center">
+                      <div className="form-group mx-sm-3 mb-2">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="inputPassword2"
+                          placeholder="Enter Amount to Add"
+                        />
+                      </div>
+                      <button type="submit" className="btn btn-primary mb-2">
+                        <i class="fa-solid fa-indian-rupee-sign"></i> Add Money
+                      </button>
+                    </form>
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button
