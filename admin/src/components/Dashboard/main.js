@@ -18,6 +18,7 @@ export default function Main() {
   const [ShowmoneyPopup, setShowmoneyPopup] = useState(false);
   const [moneyDetails, setmoneyDetails] = useState(null);
   const [amountToAdd, setAmountToAdd] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,6 +70,7 @@ export default function Main() {
     setmoneyDetails(null);
     setAccountTransactions(null);
     setShowtransactionPopup(false);
+    setShowPassword(false);
   };
   const handleAddMoneyClick = (user) => {
     // add money logic here
@@ -84,6 +86,9 @@ export default function Main() {
   const handleTransactionsClick = (user) => {
     setAccountTransactions(user);
     setShowtransactionPopup(true);
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -201,7 +206,6 @@ export default function Main() {
             }}
             onClick={handleCancel}
           ></div>
-
           <div
             className="modal fade show"
             style={{ display: "block", zIndex: 1000 }}
@@ -428,10 +432,27 @@ export default function Main() {
                         {accountDetails?.username}
                       </span>
                     </div>
-                    <div className="col-md-12 mt-2">
+                    {/* <div className="col-md-12 mt-2">
                       <span className="text-primary">Password: </span>
                       <span style={{ fontSize: "20px" }}>
                         {accountDetails?.password}
+                      </span>
+                    </div> */}
+                    <div className="col-md-12 mt-2">
+                      <span className="text-primary">Password: </span>
+                      <span style={{ fontSize: "20px" }}>
+                        {showPassword ? accountDetails?.password : "*****"}{" "}
+                        {/* Show password or masked */}
+                      </span>
+                      <span
+                        onClick={togglePasswordVisibility}
+                        style={{ cursor: "pointer", marginLeft: "10px" }}
+                      >
+                        {showPassword ? (
+                          <i className="fa-solid fa-eye-slash"></i> // Eye Slash Icon
+                        ) : (
+                          <i className="fa-solid fa-eye"></i> // Eye Icon
+                        )}
                       </span>
                     </div>
                     <div className="col-md-12 mt-2">
